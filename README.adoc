@@ -6,7 +6,7 @@
 Please write JavaScript that exports myFunction which rasterizes triangle list found in myInput to canvas named "myCanvas" already in DOM.
 ====
 
-## GPT-4 Response
+## GPT-4 Response
 
 ====
 To create a JavaScript function that rasterizes a list of triangles onto a canvas element named "myCanvas" in the DOM, we'll need to follow a few steps:
