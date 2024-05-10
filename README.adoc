@@ -1,0 +1,112 @@
+:toc:
+
+## GPT-4 Prompt
+
+====
+Please write JavaScript that exports myFunction which rasterizes triangle list found in myInput to canvas named "myCanvas" already in DOM.
+====
+
+## GPT-4 Response
+
+====
+To create a JavaScript function that rasterizes a list of triangles onto a canvas element named "myCanvas" in the DOM, we'll need to follow a few steps:
+
+1. **Setup the Canvas**: Access the canvas element and its drawing context.
+2. **Define the Triangle Data Structure**: Ensure the input for the triangles is well-defined.
+3. **Drawing Function**: Create a function to draw the triangles on the canvas.
+
+Let's assume that the `myInput` is an array of objects where each object represents a triangle with vertices `v1`, `v2`, and `v3`. Each vertex could be an object with `x` and `y` properties.
+
+Here’s the JavaScript code for this:
+
+```javascript
+function rasterizeTriangle(ctx, v1, v2, v3) {
+    // Begin path to draw a triangle
+    ctx.beginPath();
+    ctx.moveTo(v1.x, v1.y);  // Move to the first vertex
+    ctx.lineTo(v2.x, v2.y);  // Draw line to the second vertex
+    ctx.lineTo(v3.x, v3.y);  // Draw line to the third vertex
+    ctx.closePath();         // Close the path
+    ctx.stroke();            // Outline the triangle
+}
+
+function rasterizeTriangles(canvasId, triangles) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) {
+        console.error(`Canvas with id '${canvasId}' not found.`);
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error("Failed to get drawing context.");
+        return;
+    }
+
+    // Clear canvas before drawing
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw each triangle
+    triangles.forEach(triangle => {
+        rasterizeTriangle(ctx, triangle.v1, triangle.v2, triangle.v3);
+    });
+}
+
+// Example triangles data
+const myInput = [
+    { v1: { x: 10, y: 10 }, v2: { x: 100, y: 10 }, v3: { x: 55, y: 100 } },
+    { v1: { x: 60, y: 60 }, v2: { x: 130, y: 60 }, v3: { x: 95, y: 150 } }
+];
+
+// Export the function (CommonJS style)
+module.exports = {
+    myFunction: function() {
+        rasterizeTriangles('myCanvas', myInput);
+    }
+};
+
+// To call the function, you would use:
+// const { myFunction } = require('./pathToYourFile');
+// myFunction();
+```
+
+### Breakdown:
+- **rasterizeTriangle**: A helper function that draws a single triangle on the canvas. It takes the canvas' drawing context and the three vertices of the triangle as arguments.
+- **rasterizeTriangles**: The main function which accesses the canvas, gets the context, clears the previous drawings, and then iterates through an array of triangles to draw each one using `rasterizeTriangle`.
+- **Exporting**: The function `myFunction` is exported. It calls `rasterizeTriangles` with the canvas ID and the list of triangles.
+
+Make sure to replace `'./pathToYourFile'` with the actual path to your JavaScript file when importing it elsewhere in your Node.js application.
+
+This code assumes basic error handling and does not handle complex scenarios like 3D projections, color filling, etc. Adjustments may be needed based on additional requirements such as canvas size, colors, or triangle filling.
+====
+
+## Renamed and Minified Code
+
+* From: https://www.toptal.com/developers/javascript-minifier
+====
+function myFunctionInternal(n,t,e,o){n.beginPath(),n.moveTo(t.x,t.y),n.lineTo(e.x,e.y),n.lineTo(o.x,o.y),n.closePath(),n.stroke()}function myFunctionInternals(n,t){let e=document.getElementById(n);if(!e){console.error(`Canvas with id '${n}' not found.`);return}let o=e.getContext("2d");if(!o){console.error("Failed to get drawing context.");return}o.clearRect(0,0,e.width,e.height),t.forEach(n=>{myFunctionInternal(o,n.v1,n.v2,n.v3)})}const myInput=[{v1:{x:10,y:10},v2:{x:100,y:10},v3:{x:55,y:100}},{v1:{x:60,y:60},v2:{x:130,y:60},v3:{x:95,y:150}}];module.exports={myFunction:function(){myFunctionInternals("myCanvas",myInput)}};
+====
+
+## Opus Prompt
+
+====
+Please explain what the exported function does.
+
+function myFunctionInternal(n,t,e,o){n.beginPath(),n.moveTo(t.x,t.y),n.lineTo(e.x,e.y),n.lineTo(o.x,o.y),n.closePath(),n.stroke()}function myFunctionInternals(n,t){let e=document.getElementById(n);if(!e){console.error(`Canvas with id '${n}' not found.`);return}let o=e.getContext("2d");if(!o){console.error("Failed to get drawing context.");return}o.clearRect(0,0,e.width,e.height),t.forEach(n=>{myFunctionInternal(o,n.v1,n.v2,n.v3)})}const myInput=[{v1:{x:10,y:10},v2:{x:100,y:10},v3:{x:55,y:100}},{v1:{x:60,y:60},v2:{x:130,y:60},v3:{x:95,y:150}}];module.exports={myFunction:function(){myFunctionInternals("myCanvas",myInput)}};
+====
+
+## Opus Response
+
+====
+The exported function `myFunction` is responsible for drawing triangles on an HTML canvas element with the ID "myCanvas". Here's a breakdown of what the code does:
+
+1. The `myFunctionInternal` function takes four parameters: `n` (the canvas context), `t`, `e`, and `o` (three points representing the vertices of a triangle). It draws a triangle on the canvas using the provided points.
+
+2. The `myFunctionInternals` function takes two parameters: `n` (the ID of the canvas element) and `t` (an array of triangle objects). It retrieves the canvas element using the provided ID and gets its 2D rendering context. If the canvas element or the context is not found, it logs an error message. Otherwise, it clears the canvas and iterates over the array of triangle objects, calling `myFunctionInternal` for each triangle to draw it on the canvas.
+
+3. The `myInput` constant is an array of two triangle objects. Each triangle object has three properties: `v1`, `v2`, and `v3`, representing the vertices of the triangle. The vertices are specified using `x` and `y` coordinates.
+
+4. The exported `myFunction` is the main function that is meant to be called externally. When called, it invokes the `myFunctionInternals` function, passing the ID of the canvas element ("myCanvas") and the `myInput` array of triangle objects.
+
+In summary, when the exported `myFunction` is called, it retrieves the canvas element with the ID "myCanvas", clears the canvas, and draws two triangles on the canvas using the coordinates specified in the `myInput` array. The first triangle has vertices at (10, 10), (100, 10), and (55, 100), while the second triangle has vertices at (60, 60), (130, 60), and (95, 150).
+====
